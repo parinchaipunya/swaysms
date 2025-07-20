@@ -1,0 +1,29 @@
+# SwaySMS (Sway Screen Mode Selector)
+
+SwaySMS is one of my scripts that I use to control my screen modes.
+It is created based on my personal requirements, but I got some requests to share it from some of my friends.
+
+Since I am not a programmer/developer, there is no promise on any development of the project.
+Do drop me a message if you have any suggestions.
+
+## What is inside ?
+I have two scripts that I rely on my display manager.
+The first bash script (`display_daemon`) is run in the background and its job is to make sure my laptop screen is enabled whenever there is nothing else connected to it.
+The second python script (`screen_mode_selector`) opens a GUI window that let you choose between the three modes: Extension, Mirror, and Clamshell (External screen only).
+
+## Dependencies
+Apart from `sway`, you will need `jq` and `tk` from your distro's repo.
+
+## Installation
+```
+git clone https://github.com/parinchaipunya/swaysms
+cd swaysms
+./install.sh
+```
+
+## Usage
+If you want the `display_daemon` to work, please put in your sway config file the following.
+```
+exec display_daemon
+```
+The SwaySMS GUI is called from your menu of choice or `screen_mode_selector` from your terminal.

@@ -1,0 +1,27 @@
+#! /bin/bash
+
+# github.com/parinchipunya/swaysms
+# 20 July 2025
+
+LOCKFILE="/tmp/check_display_daemon.lock"
+exec 200>"$LOCKFILE"
+flock -n 200 || { echo "Another instance is already running."; exit 1; }
+trap 'rm -f "$LOCKFILE"; exit' INT TERM EXIT
+
+LAPTOP_SCREEN="eDP-1"
+
+while true; do
+  echo "checking"
+  # ACTIVE_OUTPUTS=$(swaymsg -t get_outputs | jq -r '.[] | select(.active == true) | .name')
+  ALL_OUTPUTS=$(swaymsg -t get_outputs | jq -r '.[].name')
+  ALL_COUNT=$(echo "$ALL_OUTPUTS" | wc -l)
+  IS_LAPTOP_ACTIVE=$(swaymsg -t get_outputs | jq -r ".[] | select(.name==\"$LAPTOP_SCREEN\") | .active")
+
+  # If only 1 display is present and it is the laptop screen and it is inactive, then enable the laptop screen
+  if [ "$ALL_COUNT" -eq 1 ] && [ "$ALL_OUTPUTS" == $LAPTOP_SCREEN ] && [ "$IS_LAPTOP_ACTIVE" == false ]; then
+    echo "No external displays detected and the laptop screen is disabled."
+    echo "Enabling laptop screen ($LAPTOP_SCREEN)..."
+    swaymsg output "$LAPTOP_SCREEN" enable
+  fi
+  sleep 5
+done
