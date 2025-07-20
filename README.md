@@ -27,3 +27,7 @@ If you want the `display_daemon` to work, please put in your sway config file th
 exec display_daemon
 ```
 The SwaySMS GUI is called from your menu of choice or `screen_mode_selector` from your terminal.
+
+## Related tools
+You may use `kanshi` and `wl-mirror` to do similar jobs.
+I am just too tired of those and this little tool just seems to be quicker when I plug it to work with an external monitor or when I present on beamers.
